@@ -46,4 +46,50 @@ router.post("/store", function (req, res, next) {
     res.redirect("/kategori");
   }
 });
+
+router.get("/edit/:id", function (req, res, next) {
+  let id = req.params.id;
+  connection.query(
+    "SELECT * FROM kategori WHERE id_kategori = ?",
+    id,
+    function (err, rows) {
+      if (err) {
+        req.flash("error", "Query gagal!");
+        res.redirect("/kategori");
+      } else {
+        res.render("kategori/edit", {
+          id: rows[0].id_kategori,
+          nama_kategori: rows[0].nama_kategori,
+        });
+      }
+    }
+  );
+});
+
+router.post("/update/:id", function (req, res, next) {
+  try {
+    let id = req.params.id;
+    let { nama_kategori } = req.body;
+    let data = {
+      nama_kategori: nama_kategori,
+    };
+    connection.query(
+      "UPDATE kategori SET ? WHERE id_kategori = ?",
+      [data, id],
+      function (err) {
+        if (err) {
+          req.flash("error", "Gagal memperbarui data");
+          res.redirect("/kategori");
+        } else {
+          req.flash("success", "Berhasil memperbarui data!");
+          res.redirect("/kategori");
+        }
+      }
+    );
+  } catch (error) {
+    req.flash("error", "Terjadi kesalahan pada fungsi");
+    res.render("/kategori");
+  }
+});
+
 module.exports = router;
