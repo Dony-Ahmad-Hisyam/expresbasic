@@ -92,4 +92,20 @@ router.post("/update/:id", function (req, res, next) {
   }
 });
 
+router.get("/delete/:id", function (req, res) {
+  let id = req.params.id;
+  connection.query(
+    "DELETE FROM kategori WHERE id_kategori     = ?",
+    id,
+    function (err) {
+      if (err) {
+        req.flash("error", "Gagal Menghapus data");
+      } else {
+        req.flash("success", "Data terhapus!");
+      }
+      res.redirect("/kategori");
+    }
+  );
+});
+
 module.exports = router;
