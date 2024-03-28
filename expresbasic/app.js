@@ -12,6 +12,8 @@ var kategoriRouter = require("./routes/kategori");
 var mahasiswaRouter = require("./routes/mahasiswa");
 var keahlianRouter = require("./routes/keahlian");
 var pendidikanRouter = require("./routes/pendidikan");
+var produkRouter = require("./routes/produk");
+var superUser = require("./routes/superusers");
 
 var app = express();
 
@@ -45,6 +47,8 @@ app.use("/kategori", kategoriRouter);
 app.use("/mahasiswa", mahasiswaRouter);
 app.use("/keahlian", keahlianRouter);
 app.use("/pendidikan", pendidikanRouter);
+app.use("/produk", produkRouter);
+app.use("/superusers", superUser);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
